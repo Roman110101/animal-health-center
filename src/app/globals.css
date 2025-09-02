@@ -1,26 +1,577 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* CSS Cascade Layers для управления специфичностью */
+@layer base, components, utilities;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer base {
+  /* Плавное решение FOUC без блокировки GSAP */
+  body:not(.gsap-initialized) .hero-content,
+  body:not(.gsap-initialized) .about-section,
+  body:not(.gsap-initialized) .services-section {
+    opacity: 0;
+    transition: opacity 0.1s ease;
+  }
 
-@media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Основные цвета */
+    --background: #ffffff;
+    --foreground: #171717;
+    
+    /* CSS переменные для отступов - фиксированные для Hero */
+    --container-padding: 2rem;
+    --container-padding-y: clamp(2rem, 6vw, 4rem);
+    
+    /* CSS переменные для Hero секции - АДАПТИВ 2025 - БАЗОВАЯ ТОЧКА 1512px */
+    --hero-text-max-width: clamp(100vw, 95vw, 1200px);  /* Всегда полная ширина для избежания переносов */
+    --hero-h1-size: clamp(30px, 5.42vw, 120px);          /* 1512px=82px, 4K=120px, 320px=30px */
+    --hero-h2-size: clamp(9px, 1.59vw, 35px);            /* 5.42vw × 0.293 = синхронно с H1 */
+    --hero-address-size: clamp(8px, 1.39vw, 31px);       /* 5.42vw × 0.256 = синхронно с H1 */
+    --hero-spacing-h1: clamp(9px, 1.02vw, 19px);         /* 5.42vw × 0.188 = синхронно с H1 */
+    --hero-spacing-h2: clamp(12px, 1.36vw, 25px);        /* 5.42vw × 0.251 = синхронно с H1 */
+    
+    /* КНОПКИ - ПРИВЯЗАНЫ К H1 ЧЕРЕЗ ПРОПОРЦИИ = СИНХРОННЫЙ РОСТ */
+    --hero-button-width: clamp(75px, 13.17vw, 290px);    /* 5.42vw × 2.43 = синхронно с H1 */
+    --hero-button-height: clamp(23px, 3.36vw, 74px);     /* 5.42vw × 0.62 = синхронно с H1 */
+    --hero-button-text-size: clamp(7px, 1.06vw, 23px);   /* 5.42vw × 0.195 = синхронно с H1 */
+    --hero-button-gap: clamp(10px, 1.52vw, 34px);        /* 5.42vw × 0.28 = синхронно с H1 */
+    
+    /* CSS переменные для About секции - АДАПТИВ 2025 - БАЗОВАЯ ТОЧКА 1512px */
+    --about-h2-size: clamp(22px, 3.18vw, 120px);         /* Уменьшено с 3.97vw до 3.18vw для 48px на 1512px */
+    --about-text-size: clamp(12px, 1.45vw, 28px);        /* Уменьшено с 22px до 12px для 320px */
+    --about-text-line-height: clamp(1.3, 0.05vw + 1.3, 1.6);  /* Уменьшена высота строки для 320px */
+    
+    /* CSS переменные для About секции - АДАПТИВ 2025 - БАЗОВАЯ ТОЧКА 1512px */
+    --about-text-max-width: clamp(90vw, 95vw, 600px);     /* Максимум 600px */
+    --about-container-width: clamp(50vw, 80vw, 600px);     /* Максимум 600px */
+    --about-spacing-title: clamp(8px, 1.36vw, 25px);     /* Уменьшено с 12px до 8px для 320px */
+    --about-spacing-text: clamp(12px, 2vw, 32px);        /* Уменьшено с 16px до 12px для 320px */
+    
+    /* CSS переменные для плашек About секции - ПРИВЯЗАНЫ К H2 ЧЕРЕЗ ПРОПОРЦИИ */
+    --about-badge-width: clamp(90px, 10.84vw, 240px);    /* Уменьшено с 120px до 90px для 320px */
+    --about-badge-height: clamp(28px, 3.36vw, 74px);     /* Уменьшено с 35px до 28px для 320px */
+    --about-badge-text-size: clamp(8px, 0.8vw, 18px);    /* Уменьшено с 10px до 8px для 320px */
+    --about-badge-gap: clamp(6px, 1.52vw, 24px);          /* Уменьшено с 8px до 6px для 320px */
+    --about-badge-container-height: clamp(45px, 6.72vw, 120px); /* Уменьшено с 60px до 45px для 320px */
+    
+    /* CSS переменные для анимированных плашек Magic UI стиля */
+    --magic-badge-width: clamp(100px, 12vw, 240px);
+    --magic-badge-height: clamp(24px, 3vw, 45px);
+    --magic-badge-text-size: clamp(10px, 1.2vw, 20px);
+    --magic-badge-gap: clamp(8px, 2vw, 32px);
+    --magic-badge-container-height: clamp(45px, 6vw, 100px);
+    
+    /* CSS переменные для сеток */
+    --card-gap: clamp(1rem, 3vw, 2rem);
+    --card-min-width: clamp(200px, 20vw, 250px);
+    
+    /* CSS переменные для квадратных карточек услуг */
+    --service-card-size: clamp(180px, 20vw, 240px);
+    --service-card-gap: clamp(0.75rem, 1.5vw, 1rem);
+    
+    /* CSS переменные для прямоугольников онлайн записи */
+    --rectangle-width: 698px;
+    --rectangle-height: 600px;
+    --rectangle-height-small: 300px;
+    
+    /* CSS переменные для прямоугольников контактов */
+    --contact-rectangle-height: 700px;
+    
+    /* CSS переменные для плашки преимуществ */
+    --advantages-card-width: 500px;
+    --advantages-card-height: 500px;
+    --advantages-card-title-size: clamp(16px, 2.5vw, 32px);
+    --advantages-card-text-size: clamp(12px, 1.45vw, 28px);
+    --advantages-card-text-line-height: clamp(1.3, 0.05vw + 1.3, 1.6);
+    
+    /* CSS переменные для обычного текста (НЕ заголовков) */
+    --text-size-mobile: clamp(1rem, 2vw, 1.125rem);
+    --text-size-desktop: clamp(1.125rem, 2vw, 1.25rem);
+    
+    /* CSS переменные для отступов между элементами */
+    --spacing-xs: clamp(0.5rem, 1vw, 0.75rem);
+    --spacing-sm: clamp(0.75rem, 2vw, 1rem);
+    --spacing-md: clamp(1rem, 3vw, 1.5rem);
+    --spacing-lg: clamp(1.5rem, 4vw, 2rem);
+    --spacing-xl: clamp(2rem, 6vw, 3rem);
+    
+    /* CSS переменные для радиусов */
+    --border-radius-sm: clamp(0.25rem, 1vw, 0.5rem);
+    --border-radius-md: clamp(0.5rem, 2vw, 1rem);
+    --border-radius-lg: clamp(1rem, 3vw, 1.5rem);
+    
+    /* Стандартное скругление для всех элементов контента (карточки, кнопки, формы) */
+    --content-border-radius: 0.5rem; /* 8px - идеальное значение из карточек статей */
+    
+    /* CSS переменные для анимаций */
+    --animation-duration: 0.3s;
+    --animation-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+
+
+    
+    /* CSS переменные для доступности */
+    --focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.5);
+    --focus-ring-offset: 2px;
+
+    
+    /* CSS переменные для эффекта стекла */
+    --glass-bg: rgba(59, 130, 246, 0.15);
+    --glass-border: rgba(59, 130, 246, 0.3);
+    --glass-blur: 20px;
+    --glass-transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* CSS переменные для градиентов секций */
+    --online-booking-gradient: linear-gradient(to bottom right, #67e8f9, #3b82f6);
+    --advantages-card-gradient: linear-gradient(135deg, #0ea5e9, #0284c7, #0369a1, #f8fafc);
+    --light-gray-bg: #f8f9fa;
+    
+    /* Apple-style цвета для секции Advantages */
+    --apple-bg-light: #fafafa;
+    --apple-bg-medium: #f5f5f7;
+    --apple-text-primary: #1d1d1f;
+    --apple-text-secondary: #86868b;
+    --apple-border-light: #e5e5e7;
+    --apple-card-bg: #ffffff;
+    --apple-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --apple-card-shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.08);
+    
+    /* Бирюзово-голубые цвета для плашки */
+    --teal-primary: #0d9488;
+    --teal-light: #14b8a6;
+    --teal-lighter: #5eead4;
+    --teal-gradient: linear-gradient(135deg, #0d9488, #14b8a6, #5eead4);
+    --teal-text: #ffffff;
+  }
+
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-inter);
+    --font-geist: var(--font-geist);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0a0a0a;
+      --foreground: #ededed;
+    }
+  }
+
+
+  /* Глобальные стили для исправления проблем с шириной */
+  html, body {
+    width: 100%;
+    min-width: 320px;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  html {
+    /* Добавляем для правильной работы backdrop-blur */
+    position: relative;
+    isolation: isolate;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* Добавляем для правильной работы backdrop-blur */
+    position: relative;
+    isolation: isolate;
+  }
+
+  /* Диагональные полосочки для отступов */
+  .diagonal-stripes {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 5px,
+      rgba(239, 68, 68, 0.4) 5px,
+      rgba(239, 68, 68, 0.4) 10px
+    );
+  }
+
+@layer components {
+  /* CSS Container Queries поддержка с улучшенной типографикой */
+  @container (min-width: 400px) {
+    .card {
+      grid-template-columns: 2fr 1fr;
+    }
+    
+    .text-container {
+      font-size: var(--text-size-desktop);
+      line-height: 1.6;
+    }
+  }
+
+  /* CSS Container Queries для Hero секции - УБРАНЫ, заменены на плавные CSS переменные */
+
+  @container (min-width: 600px) {
+    .card {
+      grid-template-columns: 1fr 1fr;
+    }
+    
+    .text-container {
+      font-size: var(--text-size-desktop);
+      line-height: 1.7;
+    }
+  }
+
+  @container (min-width: 800px) {
+    .card {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    
+    .text-container {
+      font-size: var(--text-size-desktop);
+      line-height: 1.8;
+    }
+  }
+
+  /* CSS Grid с auto-fit для адаптивных сеток */
+  .auto-fit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(var(--card-min-width), 1fr));
+    gap: var(--card-gap);
+  }
+
+
+
+  /* CSS Subgrid для вложенных сеток */
+  .subgrid-container {
+    display: grid;
+    grid-template-columns: subgrid;
+    gap: var(--card-gap);
+  }
+  
+  /* Стандартное скругление для всех элементов контента */
+  .content-rounded {
+    border-radius: var(--content-border-radius);
+  }
+  
+  /* Стандартное скругление для кнопок */
+  .button-rounded {
+    border-radius: var(--content-border-radius);
+  }
+  
+  /* Стандартное скругление для карточек */
+  .card-rounded {
+    border-radius: var(--content-border-radius);
+  }
+
+  /* Эффект стекла для карточек команды */
+  .glass-effect {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    transition: all var(--glass-transition);
+  }
+
+  /* CSS Logical Properties для отступов */
+  .container-padding {
+    padding-inline: var(--container-padding);
+    padding-block: var(--container-padding-y);
+  }
+
+  /* CSS Scroll-Driven Animations */
+  @keyframes slide-in-from-left {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes animate-gradient {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Magic UI анимации для плашек */
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .magic-badge {
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease-out;
+    overflow: hidden;
+    box-shadow: inset 0 -8px 10px rgba(143, 223, 255, 0.12);
+  }
+
+  .magic-badge:hover {
+    transform: translateY(-2px);
+    box-shadow: inset 0 -5px 10px rgba(143, 223, 255, 0.3);
+  }
+
+  .magic-badge::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, 
+      rgba(255, 170, 64, 0.5), 
+      rgba(156, 64, 255, 0.5), 
+      rgba(255, 170, 64, 0.5)
+    );
+    background-size: 300% 100%;
+    animation: gradient-shift 3s ease-in-out infinite;
+    border-radius: inherit;
+    z-index: -1;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: subtract;
+    -webkit-clip-path: padding-box;
+  }
+
+  .animated-gradient-text {
+    background: linear-gradient(90deg, 
+      rgba(34, 211, 238, 0.8), 
+      rgba(6, 182, 212, 0.8), 
+      rgba(8, 145, 178, 0.8)
+    );
+    background-size: 300% 100%;
+    animation: animate-gradient 3s ease-in-out infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-gradient {
+    animation: animate-gradient 3s ease-in-out infinite;
+  }
+
+  @keyframes slide-in-from-right {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-from-bottom {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .scroll-animation-left {
+    animation: slide-in-from-left linear both;
+    animation-timeline: scroll();
+    animation-range: entry 10% entry 50%;
+  }
+
+  .scroll-animation-right {
+    animation: slide-in-from-right linear both;
+    animation-timeline: scroll();
+    animation-range: entry 10% entry 50%;
+  }
+
+  .scroll-animation-bottom {
+    animation: slide-in-from-bottom linear both;
+    animation-timeline: scroll();
+    animation-range: entry 25% entry 75%;
+  }
+
+  /* CSS View Transitions API */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: var(--animation-duration);
+    animation-timing-function: var(--animation-timing);
+  }
+
+  /* Доступность: Focus states */
+  .focus-visible:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-ring-offset);
+  }
+
+  /* Доступность: Skip links */
+  .skip-link {
+    position: absolute;
+    top: -40px;
+    left: 6px;
+    background: var(--foreground);
+    color: var(--background);
+    padding: 8px;
+    text-decoration: none;
+    border-radius: var(--border-radius-sm);
+    z-index: 1000;
+    transition: top var(--animation-duration) var(--animation-timing);
+  }
+
+  .skip-link:focus {
+    top: 6px;
+  }
+
+  /* Доступность: Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+    
+    .scroll-animation-left,
+    .scroll-animation-right,
+    .scroll-animation-bottom {
+      animation: none;
+    }
+  }
+
+  /* Оптимизация для высокоплотных экранов (Retina, 4K) */
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+    /* Улучшенное сглаживание шрифтов на Retina */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    
+    /* Оптимизация изображений для высокоплотных экранов */
+    img {
+      image-rendering: -webkit-optimize-contrast;
+      image-rendering: crisp-edges;
+    }
+  }
+
+  /* Особые настройки для сверхвысокого разрешения (4K+) */
+  @media (min-width: 3840px) {
+    :root {
+      /* Увеличиваем минимальную ширину контейнера для 4K */
+      --hero-text-max-width: clamp(100vw, 95vw, 1600px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  /* Утилиты для Container Queries */
+  .container-type-inline {
+    container-type: inline-size;
+  }
+
+  .container-type-block {
+    container-type: block-size;
+  }
+
+  .container-type-size {
+    container-type: size;
+  }
+
+  /* Утилиты для Subgrid */
+  .subgrid {
+    grid-template-columns: subgrid;
+  }
+
+  .subgrid-rows {
+    grid-template-rows: subgrid;
+  }
+
+  /* Утилиты для Scroll-Driven Animations */
+  .scroll-timeline {
+    scroll-timeline: --scroll block;
+  }
+
+  .scroll-timeline-name {
+    scroll-timeline-name: --scroll;
+  }
+
+  /* Утилиты для доступности */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .not-sr-only {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+}
+
+/* Режим отладки - управление пунктирными линиями */
+/* По умолчанию все пунктирные линии скрыты */
+.border-dashed {
+  border-style: none !important;
+  border-width: 0 !important;
+}
+
+/* Когда режим отладки включен - показываем все пунктирные линии */
+.debug-mode .border-dashed {
+  border-style: dashed !important;
+  border-width: 2px !important;
+}
+
+.debug-mode .border-red-500 {
+  border-color: rgb(239 68 68) !important;
+}
+
+.debug-mode .border-blue-500 {
+  border-color: rgb(59 130 246) !important;
+}
+
+.debug-mode .border-green-500 {
+  border-color: rgb(34 197 94) !important;
+}
+
+.debug-mode .border-purple-500 {
+  border-color: rgb(168 85 247) !important;
+}
+
+/* Анимация для кнопки отладки */
+@keyframes debug-pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.debug-mode .debug-toggle {
+  animation: debug-pulse 2s ease-in-out infinite;
 }

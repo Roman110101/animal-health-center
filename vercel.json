@@ -1,0 +1,6 @@
+{
+  "public": true,
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install"
+}

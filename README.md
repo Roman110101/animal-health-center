@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Центр здоровья животных
 
-## Getting Started
+Веб-приложение для ветеринарного центра с современным дизайном и спокойной градиентной палитрой.
 
-First, run the development server:
+## 🚀 Технологии
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15** - React фреймворк с App Router
+- **TypeScript** - строгая типизация
+- **TailwindCSS** - утилитарный CSS фреймворк
+- **ESLint** - статический анализ кода
+- **Prettier** - форматирование кода
+
+## 📁 Структура проекта
+
+```
+src/
+├── app/                    # App Router страницы
+├── components/
+│   └── sections/          # 10 секций с красивой нумерацией
+│       ├── 01-Hero/       # Главная секция
+│       ├── 02-About/      # О нас
+│       ├── 03-Services/   # Наши услуги
+│       ├── 04-Advantages/ # Наши преимущества
+│       ├── 05-OnlineBooking/ # Онлайн запись
+│       ├── 06-Team/       # Наша команда
+│       ├── 07-Certificates/ # Сертификаты
+│       ├── 08-Reviews/    # Отзывы клиентов
+│       ├── 09-Articles/   # Полезные статьи
+│       └── 10-Contact/    # Контакты
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🎨 Дизайн
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Каждая секция имеет:
+- Уникальный спокойный градиентный тон
+- Минималистичный дизайн
+- Только заголовок и краткое описание
+- Полноэкранную высоту
+- Красивые градиентные переходы
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Установка и запуск
 
-## Learn More
+```bash
+# Установка зависимостей
+npm install
 
-To learn more about Next.js, take a look at the following resources:
+# Запуск в режиме разработки
+npm run dev
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Сборка для продакшена
+npm run build
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Проверка линтера
+npm run lint
 
-## Deploy on Vercel
+# Проверка типов
+npm run type-check
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 📋 Правила разработки
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Подробные правила и требования к коду находятся в файле [ПРАВИЛА_ПРОЕКТА.md](./ПРАВИЛА_ПРОЕКТА.md).
+
+## 🌐 Доступ
+
+После запуска `npm run dev` приложение будет доступно по адресу:
+[http://localhost:3000](http://localhost:3000)
+
+## 📝 Лицензия
+
+MIT License
