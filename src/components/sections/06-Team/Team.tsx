@@ -247,7 +247,7 @@ const Team: React.FC = () => {
                     }}
                   >
                     <span className="text-white text-lg font-medium font-inter">Фото врача</span>
-                  </div>
+                </div>
                 )}
                 
                 {/* Упрощенный overlay - текст прямо на фото без лишних рамок */}
@@ -264,7 +264,7 @@ const Team: React.FC = () => {
                         {member.position}
                       </p>
                     )}
-                  </div>
+            </div>
                 </div>
               </div>
             ))}

@@ -25,32 +25,16 @@ const LoadingScreen: React.FC = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed inset-0 bg-gradient-to-br from-cyan-500 via-teal-500 to-blue-600 z-[9999] flex items-center justify-center loading-screen">
-      {/* Анимированные частички */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/30 rounded-full loading-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 2}s`,
-              animationDuration: `${2 + Math.random() * 2}s`
-            }}
-          />
-        ))}
-      </div>
-
+    <div className="fixed inset-0 bg-black z-[9999] flex items-center justify-center loading-screen">
       {/* Основной контент */}
       <div className="relative z-10 text-center loading-content">
-        {/* Логотип */}
+        {/* Забавное сообщение */}
         <div className="mb-8">
-          <h1 className="text-4xl md:text-6xl font-black text-white mb-2 font-inter">
-            Центр здоровья животных
+          <h1 className="text-4xl md:text-6xl font-black text-red-400 mb-4 font-inter">
+            Рома опять что-то нахуивертил!
           </h1>
           <p className="text-xl md:text-2xl text-white/80 font-inter">
-            Мы знаем, как они важны для вас!
+            Чиним, подождите...
           </p>
         </div>
 
@@ -58,7 +42,7 @@ const LoadingScreen: React.FC = () => {
         <div className="w-80 md:w-96 mx-auto mb-6">
           <div className="bg-white/20 rounded-full h-3 overflow-hidden">
             <div 
-              className="bg-white h-full rounded-full transition-all duration-300 ease-out"
+              className="bg-red-400 h-full rounded-full transition-all duration-300 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -71,27 +55,27 @@ const LoadingScreen: React.FC = () => {
 
         {/* Анимированные точки */}
         <div className="flex justify-center space-x-1">
-          <div className="w-2 h-2 bg-white/60 rounded-full loading-bounce" style={{ animationDelay: '0s' }} />
-          <div className="w-2 h-2 bg-white/60 rounded-full loading-bounce" style={{ animationDelay: '0.1s' }} />
-          <div className="w-2 h-2 bg-white/60 rounded-full loading-bounce" style={{ animationDelay: '0.2s' }} />
+          <div className="w-2 h-2 bg-red-400 rounded-full loading-bounce" style={{ animationDelay: '0s' }} />
+          <div className="w-2 h-2 bg-red-400 rounded-full loading-bounce" style={{ animationDelay: '0.1s' }} />
+          <div className="w-2 h-2 bg-red-400 rounded-full loading-bounce" style={{ animationDelay: '0.2s' }} />
         </div>
 
         {/* Статус загрузки */}
         <div className="mt-6 text-white/70 text-sm">
-          {progress < 30 && "Инициализация..."}
-          {progress >= 30 && progress < 60 && "Загрузка ресурсов..."}
-          {progress >= 60 && progress < 90 && "Подготовка интерфейса..."}
-          {progress >= 90 && "Почти готово..."}
+          {progress < 30 && "Ищем где Рома спрятал баги..."}
+          {progress >= 30 && progress < 60 && "Перезагружаем мозг Ромы..."}
+          {progress >= 60 && progress < 90 && "Почти починили..."}
+          {progress >= 90 && "Готово! Рома больше не будет..."}
         </div>
       </div>
 
       {/* Дополнительные эффекты */}
       <div className="absolute bottom-8 left-8 text-white/50 text-sm">
-        <div className="animate-pulse">⚡ Быстрая загрузка</div>
+        <div className="animate-pulse">🔧 Чиним баги</div>
       </div>
       
       <div className="absolute bottom-8 right-8 text-white/50 text-sm">
-        <div className="animate-pulse">🔄 Оптимизация</div>
+        <div className="animate-pulse">🤦‍♂️ Рома...</div>
       </div>
     </div>
   );
