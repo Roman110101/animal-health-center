@@ -76,12 +76,28 @@ const LightRays: React.FC<LightRaysProps> = ({
   className = ''
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const uniformsRef = useRef<any>(null);
+  const uniformsRef = useRef<{
+    iTime: { value: number };
+    iResolution: { value: number[] };
+    rayPos: { value: number[] };
+    rayDir: { value: number[] };
+    raysColor: { value: [number, number, number] };
+    raysSpeed: { value: number };
+    lightSpread: { value: number };
+    rayLength: { value: number };
+    pulsating: { value: number };
+    fadeDistance: { value: number };
+    saturation: { value: number };
+    mousePos: { value: number[] };
+    mouseInfluence: { value: number };
+    noiseAmount: { value: number };
+    distortion: { value: number };
+  } | null>(null);
   const rendererRef = useRef<Renderer | null>(null);
   const mouseRef = useRef({ x: 0.5, y: 0.5 });
   const smoothMouseRef = useRef({ x: 0.5, y: 0.5 });
   const animationIdRef = useRef<number | null>(null);
-  const meshRef = useRef<any>(null);
+  const meshRef = useRef<Mesh<Triangle> | null>(null);
   const cleanupFunctionRef = useRef<(() => void) | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -281,7 +297,7 @@ void main() {
         const w = wCSS * dpr;
         const h = hCSS * dpr;
 
-        uniforms.iResolution.value = [w, h];
+        uniforms.iResolution.value = [w, h, 1] as [number, number, number];
 
         const { anchor, dir } = getAnchorAndDir(raysOrigin, w, h);
         uniforms.rayPos.value = anchor;

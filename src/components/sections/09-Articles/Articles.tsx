@@ -123,14 +123,14 @@ const Articles: React.FC = () => {
   const [likesCounts, setLikesCounts] = useState<Record<number, number>>({});
   const [showCommentsStates, setShowCommentsStates] = useState<Record<number, boolean>>({});
   const [commentInputs, setCommentInputs] = useState<Record<number, string>>({});
-  const [commentsData, setCommentsData] = useState<Record<number, any[]>>({});
+  const [commentsData, setCommentsData] = useState<Record<number, Array<{id: number; author: string; text: string; time: string}>>>({});
 
   // Состояния для видео
   const [videoLikedStates, setVideoLikedStates] = useState<Record<number, boolean>>({});
   const [videoLikesCounts, setVideoLikesCounts] = useState<Record<number, number>>({});
   const [videoShowCommentsStates, setVideoShowCommentsStates] = useState<Record<number, boolean>>({});
   const [videoCommentInputs, setVideoCommentInputs] = useState<Record<number, string>>({});
-  const [videoCommentsData, setVideoCommentsData] = useState<Record<number, any[]>>({});
+  const [videoCommentsData, setVideoCommentsData] = useState<Record<number, Array<{id: number; author: string; text: string; time: string}>>>({});
   const [showAllVideos, setShowAllVideos] = useState(false);
   const [videoPlayingStates, setVideoPlayingStates] = useState<Record<number, boolean>>({});
 
@@ -141,7 +141,7 @@ const Articles: React.FC = () => {
     const initialLikes: Record<number, number> = {};
     const initialShowComments: Record<number, boolean> = {};
     const initialCommentInputs: Record<number, string> = {};
-    const initialComments: Record<number, any[]> = {};
+    const initialComments: Record<number, Array<{id: number; author: string; text: string; time: string}>> = {};
 
     articlesData.forEach(article => {
       initialExpanded[article.id] = false;
@@ -164,7 +164,7 @@ const Articles: React.FC = () => {
     const initialVideoLikes: Record<number, number> = {};
     const initialVideoShowComments: Record<number, boolean> = {};
     const initialVideoCommentInputs: Record<number, string> = {};
-    const initialVideoComments: Record<number, any[]> = {};
+    const initialVideoComments: Record<number, Array<{id: number; author: string; text: string; time: string}>> = {};
 
     videosData.forEach(video => {
       initialVideoLiked[video.id] = false;
@@ -463,7 +463,7 @@ const Articles: React.FC = () => {
                 marginBottom: "var(--hero-spacing-h2)",
               }}
             >
-              Видео "Центр здоровья животных"
+              Видео &ldquo;Центр здоровья животных&rdquo;
             </h3>
           </div>
           

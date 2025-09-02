@@ -4,7 +4,7 @@ import React from 'react';
 import { useHeaderContext } from './HeaderContext';
 
 const HeaderOverlay: React.FC = () => {
-  const { showServicesDropdown, showPriceDropdown, closeAllDropdowns } = useHeaderContext();
+  const { showServicesDropdown, showPriceDropdown } = useHeaderContext();
 
   if (!showServicesDropdown && !showPriceDropdown) {
     return null;

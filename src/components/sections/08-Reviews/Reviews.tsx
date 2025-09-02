@@ -250,7 +250,7 @@ const Reviews: React.FC = () => {
                   >
                     <div className="h-full flex flex-col justify-between">
                       <p className="text-white text-sm leading-relaxed font-inter line-clamp-4">
-                        "{review.text}"
+                        &ldquo;{review.text}&rdquo;
                       </p>
                       <p className="text-white/80 text-xs font-medium font-inter mt-2">
                         — {review.author}

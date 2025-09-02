@@ -15,7 +15,7 @@ interface Particle {
 const FloatingParticles: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<Particle[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -106,7 +106,7 @@ const FloatingParticles: React.FC = () => {
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      particlesRef.current.forEach((particle, index) => {
+      particlesRef.current.forEach((particle) => {
         // Обновляем позицию
         particle.x += particle.vx;
         particle.y += particle.vy;

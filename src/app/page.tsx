@@ -7,7 +7,6 @@ import Reviews from '@/components/sections/08-Reviews/Reviews';
 import Articles from '@/components/sections/09-Articles/Articles';
 import Contact from '@/components/sections/10-Contact/Contact';
 import MobileVersion from '@/components/MobileVersion';
-import FloatingParticles from '@/components/FloatingParticles';
 
 export default function Home() {
   return (
