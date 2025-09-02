@@ -1,3 +1,5 @@
+"use client";
+
 import Hero from '@/components/sections/01-Hero/Hero';
 import Advantages from '@/components/sections/04-Advantages/Advantages';
 import OnlineBooking from '@/components/sections/05-OnlineBooking/OnlineBooking';
@@ -7,10 +9,17 @@ import Reviews from '@/components/sections/08-Reviews/Reviews';
 import Articles from '@/components/sections/09-Articles/Articles';
 import Contact from '@/components/sections/10-Contact/Contact';
 import MobileVersion from '@/components/MobileVersion';
+import LoadingScreen from '@/components/LoadingScreen';
+import { useLoadingScreen } from '@/hooks/useLoadingScreen';
 
 export default function Home() {
+  const { isLoading } = useLoadingScreen();
+
   return (
     <>
+      {/* Загрузочный экран */}
+      {isLoading && <LoadingScreen />}
+      
       {/* Skip link для доступности */}
       <a href="#main-content" className="skip-link sr-only focus:not-sr-only">
         Перейти к основному содержанию
