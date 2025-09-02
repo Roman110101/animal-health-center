@@ -46,7 +46,7 @@ const Advantages: React.FC = () => {
         // 🌟 ОДИН ГЛАВНЫЙ ScrollTrigger - пин + горизонтальный скролл + исчезновение карточек
         const horizontalCards = gsap.utils.toArray<HTMLDivElement>('.horizontal-card');
         
-        gsap.to(cardsContainer, {
+        const scrollTween = gsap.to(cardsContainer, {
           x: -scrollDistance,
           ease: "none",
           force3D: true,

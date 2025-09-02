@@ -14,6 +14,8 @@ gsap.registerPlugin(ScrollTrigger);
 const Hero: React.FC = () => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const contentContainerRef = useRef<HTMLDivElement | null>(null);
+  const [currentSection, setCurrentSection] = useState<'hero' | 'about' | 'services'>('hero');
+  const [showServices, setShowServices] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const titleRef = useRef<HTMLHeadingElement | null>(null);
@@ -85,8 +87,17 @@ const Hero: React.FC = () => {
         start: "top top",
         end: "+=1400vh", // Соответствует сокращенному PIN диапазону
         scrub: 1,
-        onUpdate: () => {
-          // Section switching logic removed
+        onUpdate: (self) => {
+          const progress = self.progress;
+          
+          // Смена секций на основе прогресса скролла
+          if (progress < 0.125) {
+            setCurrentSection('hero');
+          } else if (progress < 0.95) { // About до 95% прогресса - больше времени на исчезновение
+            setCurrentSection('about');
+          } else {
+            setCurrentSection('services'); // Services с 95% 
+          }
         },
         invalidateOnRefresh: true
       });
@@ -98,7 +109,11 @@ const Hero: React.FC = () => {
         end: "1400vh", // АБСОЛЮТНОЕ значение - сокращаем для всех Services анимаций
         scrub: 1,
         onUpdate: (self) => {
-          // Services visibility logic removed
+          if (self.progress > 0) {
+            setShowServices(true);
+          } else {
+            setShowServices(false);
+          }
         },
         invalidateOnRefresh: true
       });
