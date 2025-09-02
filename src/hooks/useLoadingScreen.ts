@@ -7,27 +7,46 @@ export const useLoadingScreen = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
 
   useEffect(() => {
-    // Симулируем загрузку ресурсов
+    // Ждем полной загрузки страницы
+    const handleLoad = () => {
+      // Дополнительная задержка для полной загрузки всех ресурсов
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000); // 1 секунда после загрузки страницы
+    };
+
+    // Симулируем прогресс загрузки
     const simulateLoading = () => {
       const interval = setInterval(() => {
         setLoadingProgress(prev => {
           if (prev >= 100) {
             clearInterval(interval);
-            // Небольшая задержка перед скрытием
-            setTimeout(() => setIsLoading(false), 800);
             return 100;
           }
-          return prev + Math.random() * 12 + 3; // Случайный прогресс 3-15%
+          return prev + Math.random() * 8 + 2; // Более медленный прогресс 2-10%
         });
-      }, 150);
+      }, 100);
 
-      return () => clearInterval(interval);
+      return interval;
     };
 
-    // Начинаем загрузку после небольшой задержки
-    const timer = setTimeout(simulateLoading, 100);
+    // Если страница уже загружена
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      // Ждем загрузки страницы
+      window.addEventListener('load', handleLoad);
+    }
 
-    return () => clearInterval(timer);
+    // Начинаем симуляцию загрузки
+    const loadingInterval = simulateLoading();
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+      if (loadingInterval) {
+        clearInterval(loadingInterval);
+      }
+    };
   }, []);
 
   return { isLoading, loadingProgress };
